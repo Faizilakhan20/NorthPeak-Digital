@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NorthPeak Digital — Digital product studio</title>
+  <meta name="description" content="NorthPeak Digital designs and builds web experiences for teams who need to move fast without cutting corners.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+/* =========================================================
+   NorthPeak Digital — design tokens
+   Palette:  ink #10151C · panel #161D26 · frost #F6F8FA
+             text-dark #1B222B · text-muted #5B6572
+             accent-ice #5EEAD4 · accent-blue #2F6FED · line #E4E8ED
+   Type:     Display  — Space Grotesk
+             Body     — Inter
+             Data/UI  — JetBrains Mono
+   ========================================================= */
+
+:root {
+  --ink: #10151C;
+  --panel: #161D26;
+  --frost: #F6F8FA;
+  --paper: #FFFFFF;
+  --text-dark: #1B222B;
+  --text-muted: #5B6572;
+  --text-on-dark: #C4CDD8;
+  --accent-ice: #5EEAD4;
+  --accent-blue: #2F6FED;
+  --line: #E4E8ED;
+  --line-dark: #29323D;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius: 10px;
+  --wrap: 1180px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background: var(--paper);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--text-dark);
+  line-height: 1.12;
+  margin: 0 0 0.5em;
+  letter-spacing: -0.01em;
+}
+
+p { margin: 0 0 1em; color: var(--text-muted); }
+
+a { color: inherit; }
+
+img, svg { max-width: 100%; display: block; }
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 18px;
+  z-index: 1000;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+  margin: 0 0 0.9em;
+}
+.eyebrow-light { color: var(--accent-ice); }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent-blue);
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 13px 26px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(47,111,237,0.28); }
+.btn:active { transform: translateY(0); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-dark);
+  border-color: var(--line);
+}
+.btn-ghost:hover { border-color: var(--accent-blue); color: var(--accent-blue); box-shadow: none; }
+
+.btn-small { padding: 9px 18px; font-size: 0.88rem; }
+.btn-block { width: 100%; }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  color: var(--text-dark);
+  margin-right: auto;
+}
+.logo-mark { color: var(--accent-blue); flex-shrink: 0; }
+.logo em { font-style: normal; color: var(--accent-blue); }
+
+.main-nav { display: none; gap: 28px; }
+.main-nav a {
+  text-decoration: none;
+  font-size: 0.94rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+}
+.main-nav a:hover { color: var(--text-dark); }
+
+.nav-cta { display: none; }
+
+.nav-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  margin: 0 8px;
+  background: var(--text-dark);
+  border-radius: 2px;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 24px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+}
+.mobile-nav a {
+  text-decoration: none;
+  color: var(--text-dark);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-weight: 500;
+}
+.mobile-nav a:last-child { border-bottom: none; margin-top: 8px; }
+.mobile-nav[hidden] { display: none; }
+
+/* ---------- Hero ---------- */
+.hero { padding: 56px 0 72px; }
+.hero-grid {
+  display: grid;
+  gap: 40px;
+}
+.hero-copy h1 {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  max-width: 15ch;
+}
+.hero-sub {
+  font-size: 1.08rem;
+  max-width: 46ch;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 28px 0 32px;
+}
+.hero-trust {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.hero-trust li::before {
+  content: "— ";
+  color: var(--accent-blue);
+}
+
+.hero-chart {
+  position: relative;
+  background: var(--ink);
+  border-radius: 16px;
+  padding: 24px 20px 20px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.peak-line {
+  stroke: var(--accent-ice);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.peak-dot { fill: var(--accent-ice); }
+.chart-caption {
+  position: absolute;
+  left: 24px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.chart-num {
+  font-family: var(--font-mono);
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: #fff;
+}
+.chart-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-on-dark);
+  max-width: 22ch;
+}
+
+/* ---------- Services ---------- */
+.services { padding: 64px 0; background: var(--frost); }
+.services h2 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin-bottom: 36px; max-width: 20ch; }
+
+.service-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr;
+}
+.service-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 24px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.service-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-3px);
+}
+.service-index {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-blue);
+}
+.service-card h3 {
+  font-size: 1.12rem;
+  margin: 10px 0 8px;
+}
+.service-card p { margin: 0; font-size: 0.95rem; }
+
+/* ---------- Results ---------- */
+.results { padding: 64px 0; background: var(--ink); color: #fff; }
+.light-heading { color: #fff; font-size: clamp(1.6rem, 4vw, 2.3rem); max-width: 22ch; margin-bottom: 40px; }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+  padding: 32px 0;
+  margin-bottom: 40px;
+}
+.stat { display: flex; flex-direction: column; gap: 6px; }
+.stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--accent-ice);
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-on-dark);
+}
+
+.testimonial {
+  margin: 0;
+  max-width: 62ch;
+  border-left: 3px solid var(--accent-ice);
+  padding-left: 22px;
+}
+.testimonial p {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.testimonial footer {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-on-dark);
+}
+
+/* ---------- Pricing ---------- */
+.pricing { padding: 64px 0; }
+.pricing h2 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin-bottom: 36px; }
+
+.pricing-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+.price-card {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+}
+.price-card h3 { font-size: 1.15rem; margin-bottom: 14px; }
+.price {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: var(--text-dark);
+}
+.currency { font-size: 1.1rem; color: var(--text-muted); }
+.price-note {
+  font-size: 0.88rem;
+  margin-bottom: 20px;
+}
+.price-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: var(--text-dark);
+}
+.price-card ul li::before {
+  content: "＋ ";
+  color: var(--accent-blue);
+  font-family: var(--font-mono);
+}
+.price-card .btn { margin-top: auto; }
+
+.price-card-featured {
+  border-color: var(--accent-blue);
+  box-shadow: 0 20px 40px rgba(47,111,237,0.14);
+}
+.price-badge {
+  position: absolute;
+  top: -13px;
+  left: 26px;
+  background: var(--accent-blue);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Contact ---------- */
+.contact { padding: 64px 0 80px; background: var(--frost); }
+.contact-grid {
+  display: grid;
+  gap: 36px;
+}
+.contact-intro h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); max-width: 16ch; }
+
+.contact-form {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px;
+}
+.field { margin-bottom: 18px; display: flex; flex-direction: column; }
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-dark);
+}
+.field input, .field textarea {
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--text-dark);
+  resize: vertical;
+}
+.field input:focus, .field textarea:focus {
+  border-color: var(--accent-blue);
+}
+.field.has-error input, .field.has-error textarea {
+  border-color: #E53E3E;
+}
+.field-error {
+  font-size: 0.8rem;
+  color: #E53E3E;
+  min-height: 1.2em;
+  margin-top: 4px;
+}
+.form-status {
+  font-size: 0.9rem;
+  margin: 14px 0 0;
+  min-height: 1.2em;
+}
+.form-status.success { color: #1B7A43; }
+.form-status.error { color: #E53E3E; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--ink);
+  color: var(--text-on-dark);
+  padding: 26px 0;
+  font-size: 0.85rem;
+}
+.footer-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.footer-row p { margin: 0; color: var(--text-on-dark); }
+.footer-credit a {
+  color: var(--accent-ice);
+  text-decoration: underline;
+}
+
+/* =========================================================
+   Breakpoints — designed at 360 / 768 / 1440
+   ========================================================= */
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .main-nav { display: flex; }
+  .nav-cta { display: inline-flex; }
+  .nav-toggle { display: none; }
+  .mobile-nav { display: none !important; }
+
+  .hero-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+  }
+
+  .service-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .stat-grid { padding: 40px 0; }
+
+  .pricing-grid { grid-template-columns: repeat(3, 1fr); }
+  .price-card-featured { transform: translateY(-10px); }
+
+  .contact-grid { grid-template-columns: 0.9fr 1.1fr; align-items: start; }
+
+  .footer-row { flex-direction: row; justify-content: space-between; align-items: center; }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+  .wrap { padding: 0 40px; }
+  .service-grid { grid-template-columns: repeat(3, 1fr); }
+  .hero { padding: 84px 0 100px; }
+  .services, .results, .pricing { padding: 96px 0; }
+  .contact { padding: 96px 0 110px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="top">
+    <div class="wrap header-row">
+      <a class="logo" href="#top" aria-label="NorthPeak Digital home">
+        <svg class="logo-mark" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <path d="M2 22L10 8L14 15L18 6L26 22H2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        <span>NorthPeak<em>Digital</em></span>
+      </a>
+
+      <nav class="main-nav" id="main-nav" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#results">Results</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a class="btn btn-small nav-cta" href="#contact">Book a call</a>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" hidden>
+      <a href="#services">Services</a>
+      <a href="#results">Results</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+      <a class="btn" href="#contact">Book a call</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Introduction">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Web design &amp; engineering studio</p>
+          <h1>Ship the site your growth curve needs&nbsp;— not the one templates give you.</h1>
+          <p class="hero-sub">NorthPeak Digital designs, builds, and ships production-grade websites for teams who've outgrown drag-and-drop builders. Four weeks from kickoff to launch, average.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#contact">Get started</a>
+            <a class="btn btn-ghost" href="#results">See results</a>
+          </div>
+          <ul class="hero-trust" aria-label="Client trust indicators">
+            <li>No page builders</li>
+            <li>Hand-written code</li>
+            <li>Fixed-scope pricing</li>
+          </ul>
+        </div>
+
+        <div class="hero-chart" aria-hidden="true">
+          <svg viewBox="0 0 420 300" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="peakFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#5EEAD4" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#5EEAD4" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <polyline class="peak-fill" fill="url(#peakFill)" points="0,260 60,220 100,240 150,150 200,190 250,90 300,130 340,60 420,20 420,300 0,300"/>
+            <polyline class="peak-line" fill="none" points="0,260 60,220 100,240 150,150 200,190 250,90 300,130 340,60 420,20"/>
+            <circle class="peak-dot" cx="420" cy="20" r="5"/>
+          </svg>
+          <div class="chart-caption">
+            <span class="chart-num">+238%</span>
+            <span class="chart-label">avg. conversion lift, 90 days post-launch</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services" aria-label="Services">
+      <div class="wrap">
+        <p class="eyebrow">What we do</p>
+        <h2>Six disciplines, one team</h2>
+
+        <div class="service-grid">
+          <article class="service-card">
+            <span class="service-index">01</span>
+            <h3>Web Development</h3>
+            <p>Hand-built front ends, semantic HTML, and back ends that hold up under real traffic.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-index">02</span>
+            <h3>UI/UX Design</h3>
+            <p>Interfaces mapped to how people actually decide, not how a template assumes they will.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-index">03</span>
+            <h3>SEO</h3>
+            <p>Technical foundations and content structure that search engines can actually parse.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-index">04</span>
+            <h3>Branding</h3>
+            <p>Visual identity systems — type, color, voice — built to survive contact with real content.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-index">05</span>
+            <h3>Digital Marketing</h3>
+            <p>Campaign pages and funnels engineered around a single measurable outcome.</p>
+          </article>
+          <article class="service-card">
+            <span class="service-index">06</span>
+            <h3>Maintenance</h3>
+            <p>Ongoing performance, security, and content updates after launch day.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="results" id="results" aria-label="Results">
+      <div class="wrap">
+        <p class="eyebrow eyebrow-light">Track record</p>
+        <h2 class="light-heading">Numbers our clients check on Monday mornings</h2>
+
+        <div class="stat-grid">
+          <div class="stat">
+            <span class="stat-num">250+</span>
+            <span class="stat-label">Projects shipped</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">98%</span>
+            <span class="stat-label">Client satisfaction</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">120</span>
+            <span class="stat-label">Long-term clients</span>
+          </div>
+        </div>
+
+        <blockquote class="testimonial">
+          <p>“NorthPeak rebuilt our marketing site in three weeks. Our load time dropped by two-thirds and demo requests nearly doubled the following quarter.”</p>
+          <footer>— Maya Ilić, Head of Growth, Fielding &amp; Co.</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing" aria-label="Pricing">
+      <div class="wrap">
+        <p class="eyebrow">Investment</p>
+        <h2>Three ways to work with us</h2>
+
+        <div class="pricing-grid">
+          <article class="price-card">
+            <h3>Starter</h3>
+            <p class="price"><span class="currency">$</span>2,400</p>
+            <p class="price-note">One-page site, single sprint</p>
+            <ul>
+              <li>Up to 5 sections</li>
+              <li>Responsive build</li>
+              <li>Basic on-page SEO</li>
+              <li>2 rounds of revisions</li>
+            </ul>
+            <a class="btn btn-ghost btn-block" href="#contact">Start here</a>
+          </article>
+
+          <article class="price-card price-card-featured">
+            <span class="price-badge">Most booked</span>
+            <h3>Professional</h3>
+            <p class="price"><span class="currency">$</span>6,800</p>
+            <p class="price-note">Multi-page site, full design system</p>
+            <ul>
+              <li>Up to 8 pages</li>
+              <li>Custom design system</li>
+              <li>CMS integration</li>
+              <li>Performance &amp; accessibility pass</li>
+              <li>4 rounds of revisions</li>
+            </ul>
+            <a class="btn btn-block" href="#contact">Start here</a>
+          </article>
+
+          <article class="price-card">
+            <h3>Enterprise</h3>
+            <p class="price">Custom</p>
+            <p class="price-note">Complex builds, ongoing partnership</p>
+            <ul>
+              <li>Unlimited pages</li>
+              <li>Dedicated engineering pod</li>
+              <li>SLA-backed maintenance</li>
+              <li>Quarterly strategy reviews</li>
+            </ul>
+            <a class="btn btn-ghost btn-block" href="#contact">Talk to us</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact" aria-label="Contact">
+      <div class="wrap contact-grid">
+        <div class="contact-intro">
+          <p class="eyebrow">Get in touch</p>
+          <h2>Tell us where you're headed</h2>
+          <p>Send a few details and we'll reply within one business day with next steps.</p>
+        </div>
+
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required aria-describedby="nameError">
+            <span class="field-error" id="nameError" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="emailError">
+            <span class="field-error" id="emailError" role="alert"></span>
+          </div>
+
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required aria-describedby="messageError"></textarea>
+            <span class="field-error" id="messageError" role="alert"></span>
+          </div>
+
+          <button class="btn btn-block" type="submit">Send message</button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <p>© <span id="year"></span> NorthPeak Digital. All rights reserved.</p>
+      <p class="footer-credit">Built for <a href="https://digitalheroesco.com" target="_blank" rel="noopener">Digital Heroes Training Task</a></p>
+    </div>
+  </footer>
+
+  <script>
+// ---------- Footer year ----------
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ---------- Mobile navigation ----------
+const navToggle = document.getElementById('navToggle');
+const mobileNav = document.getElementById('mobile-nav');
+
+navToggle.addEventListener('click', () => {
+  const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+  navToggle.setAttribute('aria-expanded', String(!isOpen));
+  mobileNav.hidden = isOpen;
+});
+
+// Close mobile nav after choosing a link
+mobileNav.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => {
+    navToggle.setAttribute('aria-expanded', 'false');
+    mobileNav.hidden = true;
+  });
+});
+
+// ---------- Contact form validation ----------
+const form = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
+
+const fields = {
+  name: {
+    input: document.getElementById('name'),
+    error: document.getElementById('nameError'),
+    validate: (value) => value.trim().length >= 2,
+    message: 'Enter your name (at least 2 characters).'
+  },
+  email: {
+    input: document.getElementById('email'),
+    error: document.getElementById('emailError'),
+    validate: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()),
+    message: 'Enter a valid email address.'
+  },
+  message: {
+    input: document.getElementById('message'),
+    error: document.getElementById('messageError'),
+    validate: (value) => value.trim().length >= 10,
+    message: 'Message should be at least 10 characters.'
+  }
+};
+
+function validateField(field) {
+  const value = field.input.value;
+  const valid = field.validate(value);
+  field.input.closest('.field').classList.toggle('has-error', !valid);
+  field.error.textContent = valid ? '' : field.message;
+  field.input.setAttribute('aria-invalid', String(!valid));
+  return valid;
+}
+
+// Validate on blur for immediate, friendly feedback
+Object.values(fields).forEach((field) => {
+  field.input.addEventListener('blur', () => validateField(field));
+  field.input.addEventListener('input', () => {
+    if (field.input.closest('.field').classList.contains('has-error')) {
+      validateField(field);
+    }
+  });
+});
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const results = Object.values(fields).map(validateField);
+  const allValid = results.every(Boolean);
+
+  if (!allValid) {
+    formStatus.textContent = 'Please fix the highlighted fields before sending.';
+    formStatus.className = 'form-status error';
+    return;
+  }
+
+  // No backend wired up for this training task — simulate a successful send.
+  formStatus.textContent = 'Thanks — your message has been received. We\u2019ll reply within one business day.';
+  formStatus.className = 'form-status success';
+  form.reset();
+});
+
+  </script>
+</body>
+</html>
